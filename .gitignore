@@ -1,0 +1,18 @@
+# 忽略編譯生成的文件
+*.o
+*.out
+
+# 忽略IDE和編輯器生成的文件
+.idea/
+.vscode/
+
+# 忽略環境和依賴文件
+node_modules/
+.env
+
+# 忽略日誌文件
+*.log
+
+# 忽略編譯輸出文件
+build/
+dist/
