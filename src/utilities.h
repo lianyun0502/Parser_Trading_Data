@@ -15,6 +15,7 @@
 void ShowHex(char* c_buf, int len);
 int BCDToInt(const char& bcd);
 int CharToInt16(const char* char_buf, int len);
-char CalculateXOR(const char* array, size_t length);
+char CalculateXOR(const char* data_len, const char* payload, size_t check_len);
+void ShowHexPosition(size_t pos);
 
 #endif // PARSER_TRADING_DATA_SRC_UTILITIES_H

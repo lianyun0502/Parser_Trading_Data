@@ -1,9 +1,9 @@
 // relative header file
 // C sys files
+#include <string.h>
 // C++ sys files
 #include <fstream>
 #include <iostream>
-#include <string>
 // other library header files
 // project header files
 #include "src/utilities.h"
@@ -20,28 +20,53 @@ int main() {
     cout << "Failed to open file.\n";
     return 1;  // EXIT_FAILURE
   }
+
+  size_t esc_code_pos = 0;
+  char len_buf[2] = {0};
+  char checksum = 0;
+
   while (!ifs.eof()) {
     ifs.read(buffer, sizeof(buffer));
     if (buffer[0] == 0x1b) {
-      char len_buf[2] = {0};
+      esc_code_pos = ifs.tellg();
+      bzero(len_buf, sizeof(len_buf));
       ifs.read(len_buf, sizeof(len_buf));
-      ShowHex(len_buf, 2);
+      // ShowHex(len_buf, 2);
       int len = CharToInt16(len_buf, 2);
-      if (len < 3) {
-        cout << "len is less than 3.\n";
+      if (len < 13) {
+        cout << "len is less than 13.\n";
+        ShowHexPosition(esc_code_pos);
+        ifs.seekg(esc_code_pos);
         continue;
       }
-      cout << "len: " << len << endl;
-      char data_buf[len - 3] = {0};
+      char data_buf[len - 3];
+      bzero(data_buf, sizeof(data_buf));
       ifs.read(data_buf, len - 3);
-      ShowHex(data_buf, len - 3);
+      if (ifs.gcount() != len - 3) {
+        cout << "EOF.\n";
+        ShowHexPosition(esc_code_pos);
+        break;
+      }
+      if (data_buf[len - 5] != 0x0D && data_buf[len - 4] != 0x0A) {
+        cout << "termainal code not match \n";
+        ShowHexPosition(esc_code_pos);
+        ifs.seekg(esc_code_pos);
+        continue;
+      }
+      checksum = CalculateXOR(len_buf, data_buf, len - 6);
+      if (data_buf[len - 6] != checksum) {
+        cout << "checksum not match! data=" << (int)data_buf[len - 6] 
+        << " res="<< (int)checksum <<"\n";
+        ShowHexPosition(esc_code_pos);
+        ifs.seekg(esc_code_pos);
+        continue;
+      }
+      ShowHexPosition(esc_code_pos);
+      cout << "len: " << len << endl;
+      // ShowHex(data_buf, len - 3);
       cout<< "======================" << endl;
     }
-    size_t pos = ifs.tellg();
-    cout << "position: " << pos << "\n";
   }
-  size_t pos = ifs.tellg();
-  cout << "position: " << pos << "\n";
   ifs.close();
   return 0;
 }

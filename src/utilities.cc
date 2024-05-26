@@ -21,6 +21,11 @@ void ShowHex(char* c_buf, int len) {
   cout << setfill(' ') << setw(0) << dec << endl;
 }
 
+void ShowHexPosition(size_t pos) {
+  cout << "position: " << setfill('0') << setw(8) << hex << pos << setfill(' ')
+       << setw(0) << dec << endl;
+}
+
 // convert BCD to int
 // input is 1 byte char
 // retrun is 2 digit int
@@ -38,11 +43,10 @@ int CharToInt16(const char* char_buf, int len) {
 // Calculate XOR of an byte array
 // input is byte array and length
 // return is XOR result (char)
-char CalculateXOR(const char* array, size_t length) {
-  char xorResult = 0;
-
-  for (size_t i = 0; i < length; ++i) {
-    xorResult ^= array[i];
+char CalculateXOR(const char* data_len, const char* payload, size_t check_len) {
+  char xorResult = data_len[0] ^ data_len[1];
+  for (size_t i = 0; i < check_len; ++i) {
+    xorResult ^= payload[i];
   }
   return xorResult;
 }

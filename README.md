@@ -21,11 +21,12 @@
 PARSER_TRADING_DATA/
 ├── src/
 │   ├── main.cc
-│   ├── ...
-│   ├── ...
+│   ├── utilities.cc
+│   ├── utilities.h
 │   └── ...
 ├── CMakeLists.txt
 └── README.md
+```
 
 ## 使用CMake構建專案
 ```bash
