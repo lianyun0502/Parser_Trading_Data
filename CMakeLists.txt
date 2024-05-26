@@ -10,7 +10,7 @@ aux_source_directory(${PROJECT_SOURCE_DIR}/src SRC_LIST) # find all source files
 include_directories(/usr/include/myincludefolder ${PROJECT_SOURCE_DIR}) # include the header files
 add_compile_options(-std=c++20 -O2) # set the compile options
 
-add_executable(main ${SRC_LIST} main.cpp)
+add_executable(main ${SRC_LIST} main.cc)
 
 set(CPACK_PROJECT_NAME ${PROJECT_NAME})
 set(CPACK_PROJECT_VERSION ${PROJECT_VERSION})
