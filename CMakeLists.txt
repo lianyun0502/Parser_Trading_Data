@@ -7,7 +7,7 @@ enable_testing()
 
 set(EXECUTABLE_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/bin) # set the output path of the executable file
 aux_source_directory(${PROJECT_SOURCE_DIR}/src SRC_LIST) # find all source files in src directory
-include_directories(/usr/include/myincludefolder ${PROJECT_SOURCE_DIR}/include) # include the header files
+include_directories(/usr/include/myincludefolder ${PROJECT_SOURCE_DIR}) # include the header files
 add_compile_options(-std=c++20 -O2) # set the compile options
 
 add_executable(main ${SRC_LIST} main.cpp)

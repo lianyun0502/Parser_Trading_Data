@@ -16,3 +16,4 @@ node_modules/
 # 忽略編譯輸出文件
 build/
 dist/
+bin/
