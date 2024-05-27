@@ -30,12 +30,22 @@ void ShowHexPosition(size_t pos) {
 // input is 1 byte char
 // retrun is 2 digit int
 // ex, 0x89 to 89
-int BCDToInt(const char& bcd) { return (bcd & 0xF) + ((bcd >> 4) & 0xF) * 10; }
+int BCDToInt16(const char& bcd) {
+  return (bcd & 0xF) + ((bcd >> 4) & 0xF) * 10;
+}
 
-int CharToInt16(const char* char_buf, int len) {
+int BCDToInt16(const char* char_buf, int len, int offset) {
   int result = 0;
-  for (int i = 0; i < len; ++i) {
-    result += (BCDToInt(char_buf[i]) * pow(10, 2 * (len - i - 1)));
+  for (int i = offset; i < offset + len; ++i) {
+    result += (BCDToInt16(char_buf[i]) * pow(10, 2 * (len + offset - i - 1)));
+  }
+  return result;
+}
+
+int64_t BCDToInt64(const char* char_buf, int len, int offset) {
+  int64_t result = 0;
+  for (int i = offset; i < offset + len; ++i) {
+    result += (BCDToInt16(char_buf[i]) * pow(10, 2 * (len + offset - i - 1)));
   }
   return result;
 }
@@ -49,4 +59,11 @@ char CalculateXOR(const char* data_len, const char* payload, size_t check_len) {
     xorResult ^= payload[i];
   }
   return xorResult;
+}
+float IntToFloat(int value, int decimal) {
+  return static_cast<float>(value) / pow(10, decimal);
+}
+
+double IntToDouble(int value, int decimal) {
+  return static_cast<double>(value) / pow(10, decimal);
 }

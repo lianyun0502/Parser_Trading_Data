@@ -7,15 +7,14 @@
 // other library header files
 // project header files
 #include "src/utilities.h"
+#include "src/twse_data_format.h"
 
 using namespace std;
-
-class TWSEParser {};
 
 int main() {
   char buffer[1] = {0};
 
-  std::ifstream ifs("twse_20230808.bin", std::ios::in | std::ios::binary);
+  ifstream ifs("twse_20230808.bin", ios::in | ios::binary);
   if (!ifs.is_open()) {
     cout << "Failed to open file.\n";
     return 1;  // EXIT_FAILURE
@@ -32,7 +31,7 @@ int main() {
       bzero(len_buf, sizeof(len_buf));
       ifs.read(len_buf, sizeof(len_buf));
       // ShowHex(len_buf, 2);
-      int len = CharToInt16(len_buf, 2);
+      int len = BCDToInt16(len_buf, 2);
       if (len < 13) {
         cout << "len is less than 13.\n";
         ShowHexPosition(esc_code_pos);
@@ -61,6 +60,15 @@ int main() {
         ifs.seekg(esc_code_pos);
         continue;
       }
+      char data_seq[len] = {0};
+      data_seq[0] = 0x1b;
+      memcpy(data_seq + 1, len_buf, 2);
+      memcpy(data_seq + 3, data_buf, len - 3);
+      TWSEDataHeader header;
+      header.ParseHeader(data_seq);
+      if (header.GetFormatId() != 6) { continue; }
+      TWSEDataBody6 body;
+      body.ParseBody(data_seq);
       ShowHexPosition(esc_code_pos);
       cout << "len: " << len << endl;
       // ShowHex(data_buf, len - 3);
