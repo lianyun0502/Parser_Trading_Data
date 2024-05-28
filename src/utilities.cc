@@ -5,6 +5,8 @@
 // C sys files
 // C++ sys files
 #include <iomanip>
+#include <ctime>
+#include <chrono>
 // other library header files
 // project header files
 
@@ -26,29 +28,90 @@ void ShowHexPosition(size_t pos) {
        << setw(0) << dec << endl;
 }
 
+string BCDToString(const char* bcd, int len) {
+  string result;
+  for (int i = 0; i < len; ++i) {
+    result += static_cast<char>(((bcd[i] >> 4) & 0xF) + 0x30);
+    result += static_cast<char>((bcd[i] & 0xF) + 0x30);
+  }
+  return result;
+}
+
+int16_t BCDToInt16(const char* bcd, int len) {
+  try
+  {
+    return stoi(BCDToString(bcd, len));
+  }
+  catch(const std::exception& e)
+  {
+    std::cerr << e.what() << '\n';
+    return -1;
+  }
+}
+
+int64_t BCDToInt32(const char& bcd) {
+  try
+  {
+    return stoi(BCDToString(&bcd, 1));
+  }
+  catch(const std::exception& e)
+  {
+    std::cerr << e.what() << '\n';
+    return -1;
+  }
+}
+
+float BCDToFloat(const char* bcd, int len, int decimal) {
+  string bcd_string = BCDToString(bcd, len);
+  bcd_string.insert(bcd_string.length() - decimal, ".");
+  try
+  {
+    return stof(bcd_string);
+  }
+  catch(const std::exception& e)
+  {
+    std::cerr << e.what() << '\n';
+    return -1;
+  }
+}
+
+double BCDToDouble(const char* bcd, int len, int decimal) {
+  string bcd_string = BCDToString(bcd, len);
+  bcd_string.insert(bcd_string.length() - decimal, ".");
+  try
+  {
+    return stod(bcd_string);
+  }
+  catch(const std::exception& e)
+  {
+    std::cerr << e.what() << '\n';
+    return -1;
+  }
+}
+
 // convert BCD to int
 // input is 1 byte char
 // retrun is 2 digit int
 // ex, 0x89 to 89
-int BCDToInt16(const char& bcd) {
-  return (bcd & 0xF) + ((bcd >> 4) & 0xF) * 10;
-}
+// int BCDToInt16(const char& bcd) {
+//   return (bcd & 0xF) + ((bcd >> 4) & 0xF) * 10;
+// }
 
-int BCDToInt16(const char* char_buf, int len, int offset) {
-  int result = 0;
-  for (int i = offset; i < offset + len; ++i) {
-    result += (BCDToInt16(char_buf[i]) * pow(10, 2 * (len + offset - i - 1)));
-  }
-  return result;
-}
+// int BCDToInt16(const char* char_buf, int len, int offset) {
+//   int result = 0;
+//   for (int i = offset; i < offset + len; ++i) {
+//     result += (BCDToInt16(char_buf[i]) * pow(10, 2 * (len + offset - i - 1)));
+//   }
+//   return result;
+// }
 
-int64_t BCDToInt64(const char* char_buf, int len, int offset) {
-  int64_t result = 0;
-  for (int i = offset; i < offset + len; ++i) {
-    result += (BCDToInt16(char_buf[i]) * pow(10, 2 * (len + offset - i - 1)));
-  }
-  return result;
-}
+// int64_t BCDToInt64(const char* char_buf, int len, int offset) {
+//   int64_t result = 0;
+//   for (int i = offset; i < offset + len; ++i) {
+//     result += (BCDToInt16(char_buf[i]) * pow(10, 2 * (len + offset - i - 1)));
+//   }
+//   return result;
+// }
 
 // Calculate XOR of an byte array
 // input is byte array and length
@@ -60,10 +123,11 @@ char CalculateXOR(const char* data_len, const char* payload, size_t check_len) {
   }
   return xorResult;
 }
-float IntToFloat(int value, int decimal) {
-  return static_cast<float>(value) / pow(10, decimal);
-}
+// float IntToFloat(int value, int decimal) {
+//   return static_cast<float>(value) / pow(10, decimal);
+// }
 
-double IntToDouble(int value, int decimal) {
-  return static_cast<double>(value) / pow(10, decimal);
-}
+// double IntToDouble(int value, int decimal) {
+//   return static_cast<double>(value) / pow(10, decimal);
+// }
+

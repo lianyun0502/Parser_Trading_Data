@@ -5,12 +5,14 @@
 // C sys files
 // C++ sys files
 #include <chrono>
+#include <ctime>
 #include <iostream>
+#include <map>
 #include <string>
 
 class TWSEDataHeader {
  public:
-  int64_t& localtime() { return localtime_; }
+  int64_t GetCurrentTimeAsInt64();
 
   void ParseHeader(const char* buffer);
   int GetFormatId() const { return format_id_; }
@@ -23,27 +25,38 @@ class TWSEDataHeader {
   int32_t socket_id_ = 0;  // symbol_id ??
 };
 
-class TWSEDataBody1 {
+class TWSEDataBody {
  public:
-  // protected:
-  // private:
-  int previous_close_ = 0;  // 昨收價
-  int high_limit_ = 0;      // 漲停價
-  int low_limit_ = 0;       // 跌停價
+  virtual void ParseBody(const char* buffer)=0;
 };
 
-class TWSEDataBody6 {
+class TWSEDataBody1 : public TWSEDataBody {
  public:
   void ParseBody(const char* buffer);
+  // protected:
+  // private:
+  std::string symbol_ = " ";  // 股票代號
+  inline static std::map<std::string, float> previous_close_map_;  // 昨收價
+  inline static std::map<std::string, float> high_limit_map_;      // 漲停價
+  inline static std::map<std::string, float> low_limit_map_;       // 跌停價
+};
 
-//  private:
+class TWSEDataBody6 : public TWSEDataBody {
+ public:
+  void ParseBody(const char* buffer);
+  int64_t FmtTimetoTimePoint(const char* data);
+
+  //  private:
   std::string symbol_ = " ";  // 股票代號
   int64_t exchtime_;  // 普通股競價交易末筆即時行情資料搓合時間
   uint32_t status_ = 0;   // 揭示項目、漲跌停、狀態註記 bit_map
-  float last_price_ = 0;  // 最後成交價
-  float open_ = 0;        // 開盤價
-  int total_trade_ = 0;   // 累計成交量
-  int total_volume_ = 0;  // 總成交量
+  // float last_price_ = 0;  // 最後成交價
+  inline static std::map<std::string, int> last_price_map_;  // 最後成交價們
+  // float open_ = 0;                                           // 開盤價
+  inline static std::map<std::string, int> open_map_;        // 開盤價們
+  int total_trade_ = 0;                                      // 累計成交量
+  // inline static std::map<std::string, int> total_trade_map_;  // 累計成交量們
+  int total_volume_ = 0;                                      // 總成交量
   int total_value_ = 0;
   int average_ask_price_ = 0;   // 平均委賣價
   int average_bid_price_ = 0;   // 平均委買價
@@ -70,5 +83,7 @@ class TWSEDataBody6 {
   int bid_volume4_ = 0;         // 第四檔委買量
   int bid_volume5_ = 0;         // 第五檔委買量
 };
+
+
 
 #endif  // PARSE_TWSE_DATA_SRC_TWSE_DATA_FORMAT_H

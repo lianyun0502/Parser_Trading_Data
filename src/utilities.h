@@ -13,12 +13,17 @@
 // project header files
 
 void ShowHex(char* c_buf, int len);
-int BCDToInt(const char& bcd);
-int BCDToInt16(const char* char_buf, int len, int offset=0);
-int64_t BCDToInt64(const char* char_buf, int len, int offset);
+std::string BCDToString(const char* bcd, int len);
+// int BCDToInt(const char& bcd);
+int16_t BCDToInt16(const char* bcd, int len);
+int64_t BCDToInt64(const char* bcd, int len);
+float BCDToFloat(const char* bcd, int len, int decimal);
+double BCDToDouble(const char* bcd, int len, int decimal);
+// int BCDToInt16(const char* char_buf, int len, int offset=0);
+// int64_t BCDToInt64(const char* char_buf, int len, int offset);
 char CalculateXOR(const char* data_len, const char* payload, size_t check_len);
 void ShowHexPosition(size_t pos);
-float IntToFloat(int value, int decimal);
-double IntToDouble(int value, int decimal);
+// float IntToFloat(int value, int decimal);
+// double IntToDouble(int value, int decimal);
 
 #endif // PARSER_TRADING_DATA_SRC_UTILITIES_H
