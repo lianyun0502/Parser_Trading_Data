@@ -19,7 +19,7 @@ void TWSEDataHeader::ParseHeader(const char* data) {
 }
 
 void TWSEDataBody6::ParseBody(const char* data) {
-  symbol = string(data + 10, 6);
+  symbol_ = string(data + 10, 6);
   exchtime_ = BCDToInt64(data, 6, 16);
   status_ |= (data[22]<<16)& 0xFF0000; 
   status_ |= (data[23]<<8)& 0xFF00; 
