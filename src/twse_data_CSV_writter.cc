@@ -41,25 +41,28 @@ void TWSEDataWritter::WriteTWSEData(const TWSEData& twse_data) {
       cerr << "Failed to cast TWSEDataBody6." << endl;
       return;
     }
+    if (body_->symbol_.substr(4,2) != "  ") return; // stock filter
+
     ofs_ << body_->symbol_ << "," << header_->socket_id_ << ","
          << body_->exchtime_ << "," << header_->localtime_ << ","
          << body_->status_ << "," << body_->last_price_map_[body_->symbol_]
          << "," << TWSEDataBody1::previous_close_map_[body_->symbol_] << ","
          << body_->open_map_[body_->symbol_] << ","
          << TWSEDataBody1::high_limit_map_[body_->symbol_] << ","
-         << TWSEDataBody1::low_limit_map_[body_->symbol_] << ","
-         << body_->total_trade_ << "," << body_->total_volume_ << ","
-         << body_->total_value_ << "," << body_->average_ask_price_ << ","
-         << body_->average_bid_price_ << "," << body_->ask_price1_ << ","
-         << body_->ask_volume1_ << "," << body_->bid_price1_ << ","
-         << body_->bid_volume1_ << "," << body_->ask_price2_ << ","
-         << body_->ask_volume2_ << "," << body_->bid_price2_ << ","
-         << body_->bid_volume2_ << "," << body_->ask_price3_ << ","
-         << body_->ask_volume3_ << "," << body_->bid_price3_ << ","
-         << body_->bid_volume3_ << "," << body_->ask_price4_ << ","
-         << body_->ask_volume4_ << "," << body_->bid_price4_ << ","
-         << body_->bid_volume4_ << "," << body_->ask_price5_ << ","
-         << body_->ask_volume5_ << "," << body_->bid_price5_ << ","
-         << body_->bid_volume5_ << "," << header_->sequence_ << "\n";
+         << TWSEDataBody1::low_limit_map_[body_->symbol_] << ","<< body_->total_trade_ << ","
+         << body_->total_volume_ << ","<< body_->total_value_ << "," 
+         << body_->total_ask_volume_ << ","<< body_->total_bid_volume_ << ","
+         << body_->average_ask_price_ << ","<< body_->average_bid_price_ << "," 
+         << body_->ask_price1_ << ","<< body_->ask_volume1_ << "," 
+         << body_->bid_price1_ << ","<< body_->bid_volume1_ << "," 
+         << body_->ask_price2_ << ","<< body_->ask_volume2_ << "," 
+         << body_->bid_price2_ << ","<< body_->bid_volume2_ << "," 
+         << body_->ask_price3_ << ","<< body_->ask_volume3_ << "," 
+         << body_->bid_price3_ << ","<< body_->bid_volume3_ << "," 
+         << body_->ask_price4_ << ","<< body_->ask_volume4_ << "," 
+         << body_->bid_price4_ << ","<< body_->bid_volume4_ << "," 
+         << body_->ask_price5_ << ","<< body_->ask_volume5_ << "," 
+         << body_->bid_price5_ << ","<< body_->bid_volume5_ << "," 
+         << header_->sequence_ << "\n";
   }
 }

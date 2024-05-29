@@ -21,7 +21,7 @@ class TWSEDataHeader {
   //  private:
   int format_id_;          // 資料格式代號
   int64_t localtime_ = 0;  // 本地接收資料時間點
-  int32_t sequence_;  // 每日由 1 開始依序編傳輸流水號，各格式獨立編號
+  uint32_t sequence_;  // 每日由 1 開始依序編傳輸流水號，各格式獨立編號
   int32_t length_;         // 資料長度
   int32_t socket_id_ = 0;  // symbol_id ??
 };
@@ -61,8 +61,8 @@ class TWSEDataBody6 : public TWSEDataBody {
   int total_value_ = 0;
   int average_ask_price_ = 0;   // 平均委賣價
   int average_bid_price_ = 0;   // 平均委買價
-  int average_ask_volume_ = 0;  // 平均委賣量
-  int average_bid_volume_ = 0;  // 平均委買量
+  int total_ask_volume_ = 0;  // 平均委賣量
+  int total_bid_volume_ = 0;  // 平均委買量
   float ask_price1_ = 0;        // 第一檔委賣價
   float ask_price2_ = 0;        // 第二檔委賣價
   float ask_price3_ = 0;        // 第三檔委賣價

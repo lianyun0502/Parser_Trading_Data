@@ -90,6 +90,11 @@ bool TWSEDataParser::GetTWSEData(TWSEData& twse_data) {
     // TWSEDataBody1 body;
     auto body_ptr = make_unique<TWSEDataBody1>();
     body_ptr->ParseBody(data_seq);
+    // if (body_ptr->symbol_ == "2330  ") {
+    //   ShowHex(data_seq, len);
+    //   is_end_ = true;
+    //   return false;
+    // }
     twse_data.body = move(body_ptr);
   } else {
     return false;
