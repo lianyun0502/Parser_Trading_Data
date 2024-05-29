@@ -19,10 +19,10 @@ TWSEDataParser::TWSEDataParser(const string& filename) {
   }
 }
 
-TWSEDataParser::~TWSEDataParser() { 
+TWSEDataParser::~TWSEDataParser() {
   ifs_.close();
-  cout << "TWSEDataParser is closed.\n"; 
-  }
+  cout << "TWSEDataParser is closed.\n";
+}
 
 bool TWSEDataParser::GetTWSEData(TWSEData& twse_data) {
   if (ifs_.eof()) {

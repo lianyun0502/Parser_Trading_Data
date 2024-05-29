@@ -13,8 +13,6 @@
 #include "../include/twse_data_format.h"
 #include "../include/utilities.h"
 
-
-
 class TWSEDataParser {
  public:
   TWSEDataParser(const std::string& filename);

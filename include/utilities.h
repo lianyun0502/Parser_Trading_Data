@@ -26,4 +26,4 @@ void ShowHexPosition(size_t pos);
 // float IntToFloat(int value, int decimal);
 // double IntToDouble(int value, int decimal);
 
-#endif // PARSER_TRADING_DATA_SRC_UTILITIES_H
+#endif  // PARSER_TRADING_DATA_SRC_UTILITIES_H

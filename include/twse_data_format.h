@@ -8,8 +8,8 @@
 #include <ctime>
 #include <iostream>
 #include <map>
-#include <string>
 #include <memory>
+#include <string>
 
 class TWSEDataHeader {
  public:
@@ -28,7 +28,7 @@ class TWSEDataHeader {
 
 class TWSEDataBody {
  public:
-  virtual void ParseBody(const char* buffer)=0;
+  virtual void ParseBody(const char* buffer) = 0;
 };
 
 class TWSEDataBody1 : public TWSEDataBody {
@@ -50,14 +50,14 @@ class TWSEDataBody6 : public TWSEDataBody {
   //  private:
   std::string symbol_ = " ";  // 股票代號
   int64_t exchtime_;  // 普通股競價交易末筆即時行情資料搓合時間
-  uint32_t status_ = 0;   // 揭示項目、漲跌停、狀態註記 bit_map
+  uint32_t status_ = 0;  // 揭示項目、漲跌停、狀態註記 bit_map
   // float last_price_ = 0;  // 最後成交價
   inline static std::map<std::string, int> last_price_map_;  // 最後成交價們
   // float open_ = 0;                                           // 開盤價
-  inline static std::map<std::string, int> open_map_;        // 開盤價們
-  int total_trade_ = 0;                                      // 累計成交量
+  inline static std::map<std::string, int> open_map_;  // 開盤價們
+  int total_trade_ = 0;                                // 累計成交量
   // inline static std::map<std::string, int> total_trade_map_;  // 累計成交量們
-  int total_volume_ = 0;                                      // 總成交量
+  int total_volume_ = 0;  // 總成交量
   int total_value_ = 0;
   int average_ask_price_ = 0;   // 平均委賣價
   int average_bid_price_ = 0;   // 平均委買價
