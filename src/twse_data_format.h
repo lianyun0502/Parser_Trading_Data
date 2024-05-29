@@ -9,6 +9,7 @@
 #include <iostream>
 #include <map>
 #include <string>
+#include <memory>
 
 class TWSEDataHeader {
  public:
@@ -84,6 +85,9 @@ class TWSEDataBody6 : public TWSEDataBody {
   int bid_volume5_ = 0;         // 第五檔委買量
 };
 
-
+struct TWSEData {
+  std::unique_ptr<TWSEDataHeader> header;
+  std::unique_ptr<TWSEDataBody> body;
+};
 
 #endif  // PARSE_TWSE_DATA_SRC_TWSE_DATA_FORMAT_H
