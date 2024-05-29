@@ -1,5 +1,5 @@
 // relative header file
-#include "src/twse_data_format.h"
+#include "../include/twse_data_format.h"
 // C sys files
 #include <string.h>
 // C++ sys files
@@ -8,7 +8,7 @@
 
 // other library header files
 // project header files
-#include "src/utilities.h"
+#include "../include/utilities.h"
 
 using namespace std;
 

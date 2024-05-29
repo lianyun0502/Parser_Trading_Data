@@ -10,8 +10,8 @@
 #include <string>
 // other library header files
 // project header files
-#include "src/twse_data_format.h"
-#include "src/utilities.h"
+#include "../include/twse_data_format.h"
+#include "../include/utilities.h"
 
 class TWSEDataWritter {
  public:

@@ -1,7 +1,7 @@
 // Description: utilities functions
 
 // relative header file
-#include "src/utilities.h"
+#include "../include/utilities.h"
 // C sys files
 // C++ sys files
 #include <iomanip>
